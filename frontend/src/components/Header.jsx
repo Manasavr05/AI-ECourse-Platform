@@ -1,10 +1,62 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 export default function Header() {
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    const name = localStorage.getItem("username");
+    setUsername(name || "Learner");
+  }, []);
+
   return (
-    <header className="header">
+    <div
+      style={{
+        background: "#ffffff",
+        padding: "20px 25px",
+        borderRadius: "12px",
+        boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: "25px",
+      }}
+    >
       <div>
-        <h1>📖 AI PDF to E-Course Platform</h1>
-        <p>Create interactive courses from any PDF using AI.</p>
+        <h2
+          style={{
+            margin: 0,
+            color: "#1E3A8A",
+            fontSize: "28px",
+          }}
+        >
+          👋 Welcome, {username}!
+        </h2>
+
+        <p
+          style={{
+            marginTop: "8px",
+            color: "#666",
+            fontSize: "16px",
+          }}
+        >
+          Ready to continue learning? 📚
+        </p>
       </div>
-    </header>
+
+      <div
+        style={{
+          background: "#2563EB",
+          color: "white",
+          padding: "12px 18px",
+          borderRadius: "10px",
+          fontWeight: "bold",
+          fontSize: "15px",
+        }}
+      >
+        AI PDF to E-Course Platform
+      </div>
+    </div>
   );
 }
