@@ -54,16 +54,14 @@ export default function Modules({
       const token = localStorage.getItem("token");
 
       await fetch(
-        `http://127.0.0.1:8000/history/${historyId}?progress=${updatedPercentage}&quiz_score=0&completed=${
-          updatedPercentage === 100
-        }`,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+  `https://ai-ecourse-backend.onrender.com/history/${historyId}?progress=${updatedPercentage}&quiz_score=0&completed=${updatedPercentage === 100}`,
+  {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+);
     } catch (err) {
       console.error(err);
     }

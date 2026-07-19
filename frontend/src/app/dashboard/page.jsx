@@ -45,7 +45,7 @@ export default function Dashboard() {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await fetch("http://127.0.0.1:8000/upload", {
+      const res = await fetch("https://ai-ecourse-backend.onrender.com/chat", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
