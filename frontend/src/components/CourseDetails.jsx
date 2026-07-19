@@ -2,6 +2,14 @@
 
 export default function CourseDetails({ result }) {
   if (!result) return null;
+  if (!result.course) {
+    return (
+      <div className="card" style={{ maxWidth: "900px", margin: "30px auto", padding: "35px" }}>
+        <h2>📘 Course Details</h2>
+        <p>Upload a PDF to generate a course.</p>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -88,7 +96,7 @@ export default function CourseDetails({ result }) {
             marginTop: "20px",
           }}
         >
-          {result.course.objectives.map((objective, index) => (
+          {result.course.objectives && result.course.objectives.map((objective, index) => (
             <div
               key={index}
               style={{

@@ -6,6 +6,7 @@ export default function Sidebar({ activeTab, setActiveTab }) {
     { id: "modules", label: "📚 Modules" },
     { id: "quiz", label: "📝 Quiz" },
     { id: "progress", label: "📊 Progress" },
+    { id: "history", label: "📜 Learning History" },
     { id: "certificate", label: "🏆 Certificate" },
     { id: "aitutor", label: "🤖 AI Tutor" },
   ];

@@ -1,9 +1,9 @@
 from app.api.auth import router as auth_router
 from app.database import Base, engine
-from app.models.user import User
+from app.models import User, LearningHistory
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
+from app.api.history import router as history_router
 from app.api.upload import router as upload_router
 from app.api.tutor import router as tutor_router
 
@@ -40,3 +40,4 @@ def health():
 app.include_router(upload_router)
 app.include_router(tutor_router)
 app.include_router(auth_router)
+app.include_router(history_router)

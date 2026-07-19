@@ -9,6 +9,7 @@ import Overview from "../../components/Overview";
 import Modules from "../../components/Modules";
 import Quiz from "../../components/Quiz";
 import Progress from "../../components/Progress";
+import History from "../../components/History";
 import Certificate from "../../components/Certificate";
 import AITutor from "../../components/AITutor";
 
@@ -18,6 +19,7 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("overview");
   const [file, setFile] = useState(null);
   const [result, setResult] = useState(null);
+  const [historyId, setHistoryId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [completedModules, setCompletedModules] = useState([]);
 
@@ -59,8 +61,16 @@ export default function Dashboard() {
 
       const data = await res.json();
 
-      setResult(data);
-      setCompletedModules([]);
+console.log("========== API RESPONSE ==========");
+console.log(data);
+console.log(JSON.stringify(data, null, 2));
+console.log("==================================");
+
+setResult(data);
+setHistoryId(data.history_id);
+setCompletedModules([]);
+
+      
     } catch (error) {
       console.error(error);
       alert("Upload failed.");
@@ -92,6 +102,7 @@ export default function Dashboard() {
         {activeTab === "modules" && (
           <Modules
             result={result}
+            historyId={historyId}
             completedModules={completedModules}
             setCompletedModules={setCompletedModules}
           />
@@ -110,14 +121,18 @@ export default function Dashboard() {
           />
         )}
 
+        {activeTab === "history" && (
+          <History />
+        )}
+
         {activeTab === "certificate" && (
           <Certificate
             completed={completedModules.length}
             totalModules={
-              result ? result.course.modules.length : 0
-            }
+  result?.course?.modules?.length || 0
+}
             courseTitle={
-              result ? result.course.title : "AI Course"
+              result?.course?.title || "AI Course"
             }
           />
         )}

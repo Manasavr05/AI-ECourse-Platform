@@ -9,14 +9,14 @@ export default function Quiz({ result }) {
   const [score, setScore] = useState(0);
   const [quizFinished, setQuizFinished] = useState(false);
 
-  if (!result) {
-    return (
-      <div className="card">
-        <h2>📝 Quiz</h2>
-        <p>Upload a PDF to generate a quiz.</p>
-      </div>
-    );
-  }
+  if (!result?.course?.quiz?.length) {
+  return (
+    <div className="card">
+      <h2>📝 Quiz</h2>
+      <p>No quiz available. Please upload a PDF first.</p>
+    </div>
+  );
+}
 
   const quiz = result.course.quiz;
   const question = quiz[currentQuestion];
