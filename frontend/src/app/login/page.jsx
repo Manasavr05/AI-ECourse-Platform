@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import API from "../../../lib/api";
+import API from "../../lib/api";
 
 export default function Login() {
   const router = useRouter();
@@ -20,6 +20,7 @@ export default function Login() {
       setEmail(savedEmail);
       localStorage.removeItem("signupEmail");
 
+      // Wait for the email to be set before focusing password
       setTimeout(() => {
         passwordRef.current?.focus();
       }, 100);
@@ -40,47 +41,33 @@ export default function Login() {
         password,
       });
 
-      // Debug: See exactly what backend returns
-      console.log("Login Response:", response.data);
+      // Save JWT Token
+      localStorage.setItem(
+        "token",
+        response.data.access_token
+      );
 
-      if (!response.data.access_token) {
-        alert("No access token received from backend.");
-        return;
-      }
+      // Save User Details
+      localStorage.setItem(
+        "username",
+        response.data.user.name
+      );
 
-      // Save Token
-      localStorage.setItem("token", response.data.access_token);
-
-      // Save User Details (if available)
-      if (response.data.user) {
-        localStorage.setItem(
-          "username",
-          response.data.user.name || ""
-        );
-
-        localStorage.setItem(
-          "email",
-          response.data.user.email || ""
-        );
-      }
-
-      // Verify token was stored
-      console.log(
-        "Stored Token:",
-        localStorage.getItem("token")
+      localStorage.setItem(
+        "email",
+        response.data.user.email
       );
 
       alert("Login Successful!");
 
       router.push("/dashboard");
     } catch (error) {
-      console.error(error);
+      console.log(error);
 
       if (error.response) {
-        console.log("Backend Error:", error.response.data);
         alert(error.response.data.detail);
       } else {
-        alert("Unable to connect to backend.");
+        alert("Unable to connect to the backend.");
       }
     }
   };
