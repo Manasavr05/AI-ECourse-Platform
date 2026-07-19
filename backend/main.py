@@ -1,8 +1,10 @@
-from app.api.auth import router as auth_router
-from app.database import Base, engine
-from app.models import User, LearningHistory
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
+from app.database import Base, engine
+from app.models import User, LearningHistory
+
+from app.api.auth import router as auth_router
 from app.api.history import router as history_router
 from app.api.upload import router as upload_router
 from app.api.tutor import router as tutor_router
@@ -18,9 +20,9 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-    "http://localhost:3000",
-    "https://ai-e-course-platform.vercel.app",
-],
+        "http://localhost:3000",
+    ],
+    allow_origin_regex=r"https://.*\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -37,8 +39,6 @@ def health():
     return {
         "status": "healthy"
     }
-
-
 
 app.include_router(upload_router)
 app.include_router(tutor_router)
