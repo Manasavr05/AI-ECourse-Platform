@@ -1,10 +1,9 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://ai-ecourse-backend.onrender.com/chat",
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
-// Automatically attach JWT token
 API.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
 
