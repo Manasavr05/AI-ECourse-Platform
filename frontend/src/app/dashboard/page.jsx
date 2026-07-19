@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
+import API from "../../lib/api";
+
 import Sidebar from "../../components/Sidebar";
 import Header from "../../components/Header";
 import Overview from "../../components/Overview";
@@ -39,44 +41,39 @@ export default function Dashboard() {
 
     setLoading(true);
 
-    const formData = new FormData();
-    formData.append("file", file);
-
     try {
-      const token = localStorage.getItem("token");
+      const formData = new FormData();
+      formData.append("file", file);
 
-      const res = await fetch("https://ai-ecourse-backend.onrender.com/chat", {
-        method: "POST",
+      const response = await API.post("/upload", formData, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
         },
-        body: formData,
       });
 
-      if (res.status === 401) {
-        localStorage.removeItem("token");
-        router.push("/login");
-        return;
-      }
+      const data = response.data;
 
-      const data = await res.json();
+      console.log("========== API RESPONSE ==========");
+      console.log(data);
+      console.log(JSON.stringify(data, null, 2));
+      console.log("==================================");
 
-console.log("========== API RESPONSE ==========");
-console.log(data);
-console.log(JSON.stringify(data, null, 2));
-console.log("==================================");
+      setResult(data);
+      setHistoryId(data.history_id);
+      setCompletedModules([]);
 
-setResult(data);
-setHistoryId(data.history_id);
-setCompletedModules([]);
-
-      
+      alert("PDF uploaded successfully!");
     } catch (error) {
       console.error(error);
-      alert("Upload failed.");
-    }
 
-    setLoading(false);
+      if (error.response) {
+        alert(error.response.data.detail);
+      } else {
+        alert("Upload failed.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -115,9 +112,7 @@ setCompletedModules([]);
         {activeTab === "progress" && (
           <Progress
             completed={completedModules.length}
-            totalModules={
-              result ? result.course.modules.length : 0
-            }
+            totalModules={result?.course?.modules?.length || 0}
           />
         )}
 
@@ -128,12 +123,8 @@ setCompletedModules([]);
         {activeTab === "certificate" && (
           <Certificate
             completed={completedModules.length}
-            totalModules={
-  result?.course?.modules?.length || 0
-}
-            courseTitle={
-              result?.course?.title || "AI Course"
-            }
+            totalModules={result?.course?.modules?.length || 0}
+            courseTitle={result?.course?.title || "AI Course"}
           />
         )}
 
