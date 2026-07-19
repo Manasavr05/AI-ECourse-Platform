@@ -2,17 +2,24 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from langchain_huggingface import HuggingFaceEmbeddings
 
-embeddings = HuggingFaceEmbeddings(
-    model_name="sentence-transformers/all-MiniLM-L6-v2"
-)
-
 vector_db = None
+embeddings = None
+
+
+def get_embeddings():
+    global embeddings
+
+    if embeddings is None:
+        embeddings = HuggingFaceEmbeddings(
+            model_name="sentence-transformers/all-MiniLM-L6-v2"
+        )
+
+    return embeddings
 
 
 def build_vector_store(text):
     global vector_db
 
-    # Check for empty text
     if not text or not text.strip():
         raise ValueError("No text extracted from the PDF.")
 
@@ -22,17 +29,14 @@ def build_vector_store(text):
     )
 
     chunks = splitter.split_text(text)
-    print("Chunks:", len(chunks))
-
-    # Remove empty chunks
     chunks = [chunk.strip() for chunk in chunks if chunk.strip()]
 
-    if len(chunks) == 0:
+    if not chunks:
         raise ValueError("No valid text chunks were created.")
 
     vector_db = FAISS.from_texts(
         chunks,
-        embeddings
+        get_embeddings()
     )
 
     return len(chunks)
