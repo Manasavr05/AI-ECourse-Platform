@@ -13,18 +13,18 @@ This project was developed as part of the **In2Peta Generative AI Internship Ass
 
 ---
 
-## ✨ Features
+##  Features
 
-- 🔐 User Authentication (Register & Login)
-- 📄 Upload PDF documents
-- 🤖 AI-generated course from uploaded PDFs
-- 📚 Structured modules and lessons
-- 🧠 AI Tutor for asking questions from the uploaded PDF
-- 📝 Automatically generated quizzes
-- 📊 Learning progress tracking
-- 🕒 Learning history
-- 🏆 Course completion certificate
-- 📱 Responsive user interface
+-  User Authentication (Register & Login)
+-  Upload PDF documents
+-  AI-generated course from uploaded PDFs
+-  Structured modules and lessons
+-  AI Tutor for asking questions from the uploaded PDF
+-  Automatically generated quizzes
+-  Learning progress tracking
+-  Learning history
+-  Course completion certificate
+-  Responsive user interface
 
 ---
 
@@ -212,7 +212,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES=30
 
 ## 👩‍💻 Author
 
-**Manasa VR**
+**Manasa V R**
 
 B.E. Cyber Security
 
